@@ -1,0 +1,37 @@
+{
+  "hash": "348f39f0",
+  "configHash": "ab775ddd",
+  "lockfileHash": "c8662516",
+  "browserHash": "df82c43c",
+  "optimized": {
+    "react": {
+      "src": "../../../../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "0b0ba9d9",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../../../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "cf1f2024",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../../../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "fd1b19c9",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../../../../node_modules/react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "892e35ed",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-QTLQUYCX": {
+      "file": "chunk-QTLQUYCX.js"
+    }
+  }
+}
