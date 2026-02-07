@@ -16,7 +16,7 @@ export default function Categories() {
   if (isCatsLoading) return <div className="flex justify-center p-20"><Loader2 className="animate-spin" /></div>;
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24">
+    <div className="container mx-auto px-4 py-8 pb-20">
       <h1 className="text-3xl font-display font-bold mb-8">Browse Categories</h1>
       
       {/* Category Pills */}

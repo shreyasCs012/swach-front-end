@@ -3,7 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Navbar } from "@/components/layout/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/Home";
@@ -11,6 +11,7 @@ import AuthPage from "@/pages/Auth";
 import Categories from "@/pages/Categories";
 import Cart from "@/pages/Cart";
 import Orders from "@/pages/Orders";
+import OrderStatus from "@/pages/OrderStatus";
 import AdminDashboard from "@/pages/Admin";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/categories" component={Categories} />
       <Route path="/cart" component={Cart} />
       <Route path="/orders" component={Orders} />
+      <Route path="/order-status" component={OrderStatus} />
       <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
@@ -30,11 +32,21 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Navbar />
-        <Router />
-        <Toaster />
-      </TooltipProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="swach-theme-v2">
+        <TooltipProvider>
+          {/* Root layout */}
+          <div className="min-h-full flex flex-col bg-background">
+
+            {/* Page content */}
+            <main className="flex-1 overflow-y-auto">
+              <Router />
+            </main>
+
+            {/* Toasts */}
+            <Toaster />
+          </div>
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

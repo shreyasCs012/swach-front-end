@@ -2,6 +2,7 @@ import { useOrders } from "@/hooks/use-orders";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Package, Clock, CheckCircle, Truck, XCircle, Loader2 } from "lucide-react";
+import {Header} from "@/components/layout/Header";
 
 export default function Orders() {
   const { data: orders, isLoading } = useOrders();
@@ -9,7 +10,7 @@ export default function Orders() {
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'delivered': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
-      case 'shipped': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+      case 'shipped': return 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400';
       case 'cancelled': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
       default: return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
     }
@@ -27,7 +28,9 @@ export default function Orders() {
   if (isLoading) return <div className="flex justify-center p-20"><Loader2 className="animate-spin" /></div>;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div>
+      <Header/>
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
       <h1 className="text-3xl font-display font-bold mb-8">My Orders</h1>
       
       <div className="space-y-6">
@@ -44,7 +47,7 @@ export default function Orders() {
                 <div className="space-y-1">
                   <CardTitle className="text-base">Order #{order.id}</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                    {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
                 <Badge variant="secondary" className={`${getStatusColor(order.status)} border-transparent`}>
@@ -83,6 +86,7 @@ export default function Orders() {
           ))
         )}
       </div>
+    </div>
     </div>
   );
 }

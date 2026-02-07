@@ -4,39 +4,41 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================
+   THEME VARIABLES
+================================ */
 :root {
-  /* Fresh, clean palette for a delivery/cleaning app */
-  /* Primary: Vibrant Blue-Teal */
-  --primary: 196 90% 35%;
-  --primary-foreground: 210 40% 98%;
+  /* Primary - Orange */
+  --primary: 25 95% 53%;
+  --primary-foreground: 0 0% 98%;
 
-  /* Secondary: Soft Mint/Sage */
-  --secondary: 160 30% 96%;
-  --secondary-foreground: 162 40% 25%;
+  /* Secondary */
+  --secondary: 25 30% 96%;
+  --secondary-foreground: 25 40% 25%;
 
-  /* Accent: Bright Cyan/Blue for highlights */
-  --accent: 190 85% 60%;
-  --accent-foreground: 210 40% 98%;
+  /* Accent - Green */
+  --accent: 142 76% 36%;
+  --accent-foreground: 0 0% 98%;
 
   /* Backgrounds */
-  --background: 210 30% 99%;
+  --background: 0 0% 99%;
   --foreground: 222 47% 11%;
-  
+
   --card: 0 0% 100%;
   --card-foreground: 222 47% 11%;
-  
+
   --popover: 0 0% 100%;
   --popover-foreground: 222 47% 11%;
 
-  --muted: 210 40% 96%;
+  --muted: 25 30% 96%;
   --muted-foreground: 215 16% 47%;
 
   --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive-foreground: 0 0% 98%;
 
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
-  --ring: 196 90% 35%;
+  --border: 25 30% 91%;
+  --input: 25 30% 91%;
+  --ring: 25 95% 53%;
 
   --radius: 0.75rem;
 
@@ -47,63 +49,107 @@
 .dark {
   --background: 222 47% 11%;
   --foreground: 210 40% 98%;
-  
+
   --card: 222 47% 13%;
   --card-foreground: 210 40% 98%;
-  
+
   --popover: 222 47% 13%;
   --popover-foreground: 210 40% 98%;
-  
+
   --primary: 196 90% 45%;
   --primary-foreground: 222 47% 11%;
-  
+
   --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
-  
+  --secondary-foreground: 25 20% 80%;
+
   --muted: 217 33% 17%;
   --muted-foreground: 215 20% 65%;
-  
-  --accent: 196 90% 45%;
-  --accent-foreground: 210 40% 98%;
-  
+
+  --accent: 25 95% 53%;
+  --accent-foreground: 222 47% 11%;
+
   --destructive: 0 62% 30%;
-  --destructive-foreground: 210 40% 98%;
-  
+  --destructive-foreground: 0 0% 98%;
+
   --border: 217 33% 17%;
   --input: 217 33% 17%;
-  --ring: 196 90% 45%;
+  --ring: 25 95% 53%;
 }
 
+/* ================================
+   BASE STYLES + SAFE AREA FIX
+================================ */
 @layer base {
+  html,
+  body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+
+    /* Safe-area insets for body */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  /* Root container */
+  #root {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-body);
-  }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     @apply font-bold tracking-tight;
   }
 }
 
+/* ================================
+   COMPONENT UTILITIES
+================================ */
 .glass-panel {
-  @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl dark:bg-black/50 dark:border-white/10;
+  @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl
+         dark:bg-black/50 dark:border-white/10;
 }
 
 .hover-lift {
-  @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  @apply transition-transform duration-300
+         hover:-translate-y-1 hover:shadow-lg;
 }
 
-/* Custom Scrollbar */
+/* ================================
+   CUSTOM UTILITIES
+================================ */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30 transition-colors;
+  @apply bg-muted-foreground/20 rounded-full
+         hover:bg-muted-foreground/30 transition-colors;
 }

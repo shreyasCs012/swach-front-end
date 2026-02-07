@@ -5,14 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Search, ArrowRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
-
+import {Header} from "@/components/layout/Header";
 export default function Home() {
   const [search, setSearch] = useState("");
   const { data: products, isLoading } = useProducts({ search });
   const { data: categories } = useCategories();
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-16">
+      <div>
+        <Header/>
+      </div>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-primary/5 dark:bg-primary/10 rounded-b-3xl md:rounded-3xl mt-0 md:mt-4 mx-0 md:mx-4">
         <div className="container mx-auto px-4 py-12 md:py-24 flex flex-col md:flex-row items-center gap-8">
@@ -63,7 +66,6 @@ export default function Home() {
             View All <ArrowRight className="ml-1 w-4 h-4" />
           </Link>
         </div>
-        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {categories?.slice(0, 4).map((category) => (
             <Link key={category.id} href={`/categories?id=${category.id}`}>
