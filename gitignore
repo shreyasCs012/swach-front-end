@@ -1,0 +1,98 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+.next/
+out/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.history/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Logs
+logs/
+*.log
+
+# Runtime files
+.cache/
+.eslintcache
+.stylelintcache
+
+# Editor directories and files
+.vetur
+.sass-cache
+
+# Android
+android/build/
+android/app/build/
+android/.gradle/
+android/.idea/
+android/*.iml
+android/local.properties
+android/*.jks
+android/*.keystore
+android/capacitor-cordova-android-plugins/build/
+
+# iOS (if applicable)
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+ios/.xcode.env.local
+
+# Capacitor
+capacitor/android/
+capacitor/ios/
+
+# Temporary files
+*.temp
+*.tmp
+*.bak
+*.backup
+
+# Vite
+.vite/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Drizzle ORM
+.drizzle/
