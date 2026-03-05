@@ -1,11 +1,12 @@
-import { useOrders } from "@/hooks/use-orders";
+import { useHistory } from "@/hooks/use-orders";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Package, Clock, CheckCircle, Truck, XCircle, Loader2 } from "lucide-react";
 import {Header} from "@/components/layout/Header";
+import type { OrderItem } from "@shared/schema";
 
 export default function Orders() {
-  const { data: orders, isLoading } = useOrders();
+  const { data: orders, isLoading } = useHistory();
 
   const getStatusColor = (status: string) => {
     switch(status) {
@@ -37,8 +38,8 @@ export default function Orders() {
         {orders?.length === 0 ? (
           <div className="text-center py-12 bg-muted/30 rounded-2xl">
             <Package className="mx-auto h-12 w-12 text-muted-foreground opacity-50 mb-4" />
-            <h3 className="text-lg font-medium">No orders yet</h3>
-            <p className="text-muted-foreground">Your order history will appear here.</p>
+          <h3 className="text-lg font-medium">No delivered orders yet</h3>
+          <p className="text-muted-foreground">Your delivered order history will appear here.</p>
           </div>
         ) : (
           orders?.map((order) => (
@@ -57,7 +58,7 @@ export default function Orders() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {order.items.map((item: any, idx: number) => (
+                  {order.items.map((item: OrderItem, idx: number) => (
                     <div key={idx} className="flex justify-between items-center text-sm">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-secondary/20 rounded-md overflow-hidden">

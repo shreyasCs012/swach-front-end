@@ -58,7 +58,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Categories 
       <section className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-display font-bold">Shop by Category</h2>
@@ -82,7 +82,7 @@ export default function Home() {
             </Link>
           ))}
         </div>
-      </section>
+      </section>*/}
 
       {/* Featured Products */}
       <section className="container mx-auto px-4">

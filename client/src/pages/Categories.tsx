@@ -1,4 +1,4 @@
-import { useCategories, useProducts } from "@/hooks/use-products";
+/*import { useCategories, useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
@@ -18,8 +18,7 @@ export default function Categories() {
   return (
     <div className="container mx-auto px-4 py-8 pb-20">
       <h1 className="text-3xl font-display font-bold mb-8">Browse Categories</h1>
-      
-      {/* Category Pills */}
+
       <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide">
         <button
           onClick={() => window.history.pushState(null, '', '/categories')}
@@ -46,7 +45,7 @@ export default function Categories() {
         ))}
       </div>
 
-      {/* Products Grid */}
+
       {isProdsLoading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {[1,2,3,4,5,6].map(i => <div key={i} className="h-80 bg-muted animate-pulse rounded-2xl" />)}
@@ -67,3 +66,4 @@ export default function Categories() {
     </div>
   );
 }
+*/

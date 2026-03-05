@@ -105,3 +105,13 @@ export type OrderWithItems = Order & {
   items: (OrderItem & { product: Product })[];
   user: User;
 };
+
+// Composite types tailored for API responses consumed by the frontend
+export type ProductWithCategory = Product & {
+  category: Category;
+};
+
+// Orders returned from the /api/orders endpoints (list & get)
+export type OrderWithItemsResponse = Order & {
+  items: OrderItem[];
+};

@@ -1,14 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, type InsertUser } from "@shared/routes";
+import { api } from "@shared/routes";
 import { z } from "zod";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { InsertUser } from "@shared/schema"; // Add the correct import path if different
+
+const JWT_STORAGE_KEY = "auth_token";
 
 export function useUser() {
   return useQuery({
     queryKey: [api.auth.me.path],
     queryFn: async () => {
-      const res = await fetch(api.auth.me.path, { credentials: "include" });
+      const token = localStorage.getItem(JWT_STORAGE_KEY);
+      const res = await fetch(api.auth.me.path, { 
+        credentials: "include",
+        headers: token ? { "Authorization": `Bearer ${token}` } : {}
+      });
       if (res.status === 401) return null;
       if (!res.ok) throw new Error("Failed to fetch user");
       return api.auth.me.responses[200].parse(await res.json());
@@ -37,10 +44,16 @@ export function useLogin() {
       }
       return api.auth.login.responses[200].parse(await res.json());
     },
-    onSuccess: (user) => {
-      queryClient.setQueryData([api.auth.me.path], user);
-      toast({ title: "Welcome back!", description: `Logged in as ${user.name}` });
-      setLocation(user.role === 'admin' ? '/admin' : '/');
+    onSuccess: (data) => {
+      // Store JWT in localStorage
+      if ((data as any).token) {
+        localStorage.setItem(JWT_STORAGE_KEY, (data as any).token);
+        console.log("JWT stored in localStorage");
+      }
+      queryClient.setQueryData([api.auth.me.path], data);
+      toast({ title: "Welcome back!", description: `Logged in as ${(data as any).name ?? (data as any).user?.name}` });
+      const role = (data as any).user?.role ?? (data as any).role;
+      setLocation(role === 'admin' ? '/admin' : '/');
     },
     onError: (error) => {
       toast({ 
@@ -75,8 +88,13 @@ export function useRegister() {
       }
       return api.auth.register.responses[201].parse(await res.json());
     },
-    onSuccess: (user) => {
-      queryClient.setQueryData([api.auth.me.path], user);
+    onSuccess: (data) => {
+      // Store JWT in localStorage
+      if ((data as any).token) {
+        localStorage.setItem(JWT_STORAGE_KEY, (data as any).token);
+        console.log("JWT stored in localStorage");
+      }
+      queryClient.setQueryData([api.auth.me.path], data);
       toast({ title: "Account created!", description: "Welcome to CleanKart" });
       setLocation('/');
     },
@@ -104,6 +122,9 @@ export function useLogout() {
       if (!res.ok) throw new Error("Logout failed");
     },
     onSuccess: () => {
+      // Clear JWT from localStorage
+      localStorage.removeItem(JWT_STORAGE_KEY);
+      console.log("JWT removed from localStorage");
       queryClient.setQueryData([api.auth.me.path], null);
       toast({ title: "Logged out", description: "See you soon!" });
       setLocation('/auth');

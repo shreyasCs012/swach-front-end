@@ -4,7 +4,14 @@ import {
   insertProductSchema, 
   insertCategorySchema,
   insertOrderSchema,
-  users, categories, products, orders, orderItems 
+  users, 
+  categories, 
+  products, 
+  orders, 
+  orderItems,
+  type ProductWithCategory,
+  type OrderWithItemsResponse,
+  type OrderItem,
 } from './schema';
 
 export const errorSchemas = {
@@ -62,45 +69,60 @@ export const api = {
       },
     },
   },
-  products: {
-    list: {
-      method: 'GET' as const,
-      path: '/api/products',
-      input: z.object({
-        categoryId: z.coerce.number().optional(),
-        search: z.string().optional(),
-      }).optional(),
-      responses: {
-        200: z.array(z.custom<typeof products.$inferSelect & { category: typeof categories.$inferSelect }>()),
-      },
-    },
-    get: {
-      method: 'GET' as const,
-      path: '/api/products/:id',
-      responses: {
-        200: z.custom<typeof products.$inferSelect>(),
-        404: errorSchemas.notFound,
-      },
-    },
-    create: {
-      method: 'POST' as const,
-      path: '/api/products',
-      input: insertProductSchema,
-      responses: {
-        201: z.custom<typeof products.$inferSelect>(),
-        400: errorSchemas.validation,
-      },
-    },
-    update: {
-      method: 'PUT' as const,
-      path: '/api/products/:id',
-      input: insertProductSchema.partial(),
-      responses: {
-        200: z.custom<typeof products.$inferSelect>(),
-        404: errorSchemas.notFound,
-      },
+ products: {
+  list: {
+    method: 'GET' as const,
+    path: '/api/products',
+    input: z.object({
+      categoryId: z.coerce.number().optional(),
+      search: z.string().optional(),
+    }).optional(),
+    responses: {
+      200: z.array(z.custom<ProductWithCategory>()),
     },
   },
+
+  get: {
+    method: 'GET' as const,
+    path: '/api/products/:id',
+    responses: {
+      200: z.custom<typeof products.$inferSelect>(),
+      404: errorSchemas.notFound,
+    },
+  },
+
+  create: {
+    method: 'POST' as const,
+    path: '/api/products',
+    input: insertProductSchema,
+    responses: {
+      201: z.custom<typeof products.$inferSelect>(),
+      400: errorSchemas.validation,
+    },
+  },
+
+  update: {
+    method: 'PUT' as const,
+    path: '/api/products/:id',
+    input: insertProductSchema.partial(),
+    responses: {
+      200: z.custom<typeof products.$inferSelect>(),
+      404: errorSchemas.notFound,
+    },
+  },
+
+  // ✅ NEW DELETE ROUTE
+  delete: {
+    method: 'DELETE' as const,
+    path: '/api/products/:id',
+    responses: {
+      200: z.object({
+        success: z.boolean(),
+      }),
+      404: errorSchemas.notFound,
+    },
+  },
+},
   categories: {
     list: {
       method: 'GET' as const,
@@ -123,14 +145,14 @@ export const api = {
       method: 'GET' as const,
       path: '/api/orders',
       responses: {
-        200: z.array(z.custom<typeof orders.$inferSelect & { items: any[] }>()),
+        200: z.array(z.custom<OrderWithItemsResponse>()),
       },
     },
     get: {
       method: 'GET' as const,
       path: '/api/orders/:id',
       responses: {
-        200: z.custom<typeof orders.$inferSelect & { items: any[] }>(),
+        200: z.custom<OrderWithItemsResponse>(),
         404: errorSchemas.notFound,
       },
     },
@@ -158,6 +180,15 @@ export const api = {
       responses: {
         200: z.custom<typeof orders.$inferSelect>(),
         404: errorSchemas.notFound,
+      },
+    },
+  },
+  history: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/history',
+      responses: {
+        200: z.array(z.custom<OrderWithItemsResponse>()),
       },
     },
   },

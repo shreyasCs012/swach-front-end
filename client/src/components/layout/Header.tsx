@@ -24,7 +24,7 @@ export function Header() {
   return (
     <>
       {/* Desktop Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-orange-300 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b bg-orange-500 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="font-display font-bold text-2xl text-primary flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg  flex items-center justify-center text-white bg-green-700">
