@@ -3,7 +3,6 @@ import {
   useProducts,
   useCreateProduct,
   useDeleteProduct,
-  useCategories,
 } from "@/hooks/use-products";
 import { useOrders, useUpdateOrderStatus } from "@/hooks/use-orders";
 import { Button } from "@/components/ui/button";
@@ -173,7 +172,6 @@ function OverviewTab() {
 
 function ProductsTab() {
   const { data: products } = useProducts();
-  const { data: categories } = useCategories();
   const createProduct = useCreateProduct();
   const deleteProduct = useDeleteProduct();
   const [open, setOpen] = useState(false);
@@ -185,7 +183,6 @@ function ProductsTab() {
       description: "",
       price: 0,
       stockQuantity: 0,
-      categoryId: 0,
       imageUrl: "",
       isActive: true,
     },
@@ -236,23 +233,6 @@ function ProductsTab() {
                 placeholder="Image URL"
                 {...form.register("imageUrl")}
               />
-
-              <Select
-                onValueChange={(val) =>
-                  form.setValue("categoryId", Number(val))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories?.map((c) => (
-                    <SelectItem key={c.id} value={String(c.id)}>
-                      {c.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
 
               <Button type="submit" className="w-full">
                 Create

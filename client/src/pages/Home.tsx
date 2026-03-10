@@ -1,15 +1,13 @@
-import { useProducts, useCategories } from "@/hooks/use-products";
+import { useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowRight, Sparkles } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { Link } from "wouter";
 import {Header} from "@/components/layout/Header";
 export default function Home() {
   const [search, setSearch] = useState("");
   const { data: products, isLoading } = useProducts({ search });
-  const { data: categories } = useCategories();
 
   return (
     <div className="space-y-8 pb-16">
@@ -44,7 +42,7 @@ export default function Home() {
               <Button size="lg" className="h-12 px-6 shadow-lg shadow-primary/25">
                 Shop Now
               </Button>
-            </div>
+            </div>  
           </div>
           
           <div className="flex-1 relative h-64 md:h-96 w-full">
@@ -57,32 +55,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Categories 
-      <section className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-display font-bold">Shop by Category</h2>
-          <Link href="/categories" className="text-primary font-medium flex items-center hover:underline">
-            View All <ArrowRight className="ml-1 w-4 h-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {categories?.slice(0, 4).map((category) => (
-            <Link key={category.id} href={`/categories?id=${category.id}`}>
-              <div className="group cursor-pointer rounded-2xl overflow-hidden relative aspect-[4/3]">
-                <img 
-                  src={category.imageUrl} 
-                  alt={category.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                  <h3 className="text-white font-bold text-xl">{category.name}</h3>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>*/}
 
       {/* Featured Products */}
       <section className="container mx-auto px-4">

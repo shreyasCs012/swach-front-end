@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -14,17 +14,8 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const categories = pgTable("categories", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
-  description: text("description"),
-  imageUrl: text("image_url").notNull(),
-});
-
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
-  categoryId: integer("category_id").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   price: integer("price").notNull(), // in cents
@@ -55,15 +46,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   orders: many(orders),
 }));
 
-export const categoriesRelations = relations(categories, ({ many }) => ({
-  products: many(products),
-}));
-
-export const productsRelations = relations(products, ({ one, many }) => ({
-  category: one(categories, {
-    fields: [products.categoryId],
-    references: [categories.id],
-  }),
+export const productsRelations = relations(products, ({ many }) => ({
   orderItems: many(orderItems),
 }));
 
@@ -88,7 +71,6 @@ export const orderItemsRelations = relations(orderItems, ({ one }) => ({
 
 // Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, role: true });
-export const insertCategorySchema = createInsertSchema(categories).omit({ id: true });
 export const insertProductSchema = createInsertSchema(products).omit({ id: true });
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true, status: true, userId: true });
 export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: true });
@@ -96,19 +78,14 @@ export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: t
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
-export type Category = typeof categories.$inferSelect;
 export type Product = typeof products.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type Order = typeof orders.$inferSelect;
 export type OrderItem = typeof orderItems.$inferSelect;
 
 export type OrderWithItems = Order & {
   items: (OrderItem & { product: Product })[];
   user: User;
-};
-
-// Composite types tailored for API responses consumed by the frontend
-export type ProductWithCategory = Product & {
-  category: Category;
 };
 
 // Orders returned from the /api/orders endpoints (list & get)

@@ -1,21 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, type InsertProduct, type InsertCategory } from "@shared/routes";
+import { api, buildUrl } from "@shared/routes";
+import type { InsertProduct } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 // =========================
 // === PRODUCTS ===
 // =========================
 
-export function useProducts(params?: { categoryId?: number; search?: string }) {
+export function useProducts(params?: { search?: string }) {
   const queryKey = [api.products.list.path, JSON.stringify(params)];
 
   return useQuery({
     queryKey,
     queryFn: async () => {
       const urlParams = new URLSearchParams();
-
-      if (params?.categoryId)
-        urlParams.append("categoryId", String(params.categoryId));
 
       if (params?.search)
         urlParams.append("search", params.search);
@@ -122,56 +120,6 @@ export function useDeleteProduct() {
         title: "Error",
         description: "Failed to delete product",
         variant: "destructive",
-      });
-    },
-  });
-}
-
-// =========================
-// === CATEGORIES ===
-// =========================
-
-export function useCategories() {
-  return useQuery({
-    queryKey: [api.categories.list.path],
-    queryFn: async () => {
-      const res = await fetch(api.categories.list.path, {
-        credentials: "include",
-      });
-
-      if (!res.ok) throw new Error("Failed to fetch categories");
-
-      return api.categories.list.responses[200].parse(await res.json());
-    },
-  });
-}
-
-export function useCreateCategory() {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
-  return useMutation({
-    mutationFn: async (data: InsertCategory) => {
-      const res = await fetch(api.categories.create.path, {
-        method: api.categories.create.method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
-
-      if (!res.ok) throw new Error("Failed to create category");
-
-      return api.categories.create.responses[201].parse(await res.json());
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [api.categories.list.path],
-      });
-
-      toast({
-        title: "Category created",
-        description: "New category added",
       });
     },
   });

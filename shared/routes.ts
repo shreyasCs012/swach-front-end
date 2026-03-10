@@ -2,16 +2,10 @@ import { z } from 'zod';
 import { 
   insertUserSchema, 
   insertProductSchema, 
-  insertCategorySchema,
-  insertOrderSchema,
   users, 
-  categories, 
   products, 
-  orders, 
-  orderItems,
-  type ProductWithCategory,
-  type OrderWithItemsResponse,
-  type OrderItem,
+  orders,
+  type OrderWithItemsResponse
 } from './schema';
 
 export const errorSchemas = {
@@ -74,11 +68,10 @@ export const api = {
     method: 'GET' as const,
     path: '/api/products',
     input: z.object({
-      categoryId: z.coerce.number().optional(),
       search: z.string().optional(),
     }).optional(),
     responses: {
-      200: z.array(z.custom<ProductWithCategory>()),
+      200: z.array(z.custom<typeof products.$inferSelect>()),
     },
   },
 
@@ -123,23 +116,6 @@ export const api = {
     },
   },
 },
-  categories: {
-    list: {
-      method: 'GET' as const,
-      path: '/api/categories',
-      responses: {
-        200: z.array(z.custom<typeof categories.$inferSelect>()),
-      },
-    },
-    create: {
-      method: 'POST' as const,
-      path: '/api/categories',
-      input: insertCategorySchema,
-      responses: {
-        201: z.custom<typeof categories.$inferSelect>(),
-      },
-    },
-  },
   orders: {
     list: {
       method: 'GET' as const,

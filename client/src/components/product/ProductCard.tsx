@@ -1,4 +1,4 @@
-import { type Product, type Category } from "@shared/schema";
+import { type Product } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
-  product: Product & { category?: Category };
+  product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {

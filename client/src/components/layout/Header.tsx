@@ -36,7 +36,6 @@ export function Header() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">Shop</Link>
-            <Link href="/categories" className="text-sm font-medium hover:text-primary transition-colors">Categories</Link>
             {user?.role === 'admin' && (
               <Link href="/admin" className="text-sm font-medium hover:text-primary transition-colors">Admin Dashboard</Link>
             )}
